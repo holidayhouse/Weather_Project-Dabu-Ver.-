@@ -8,6 +8,7 @@
     --blue-primary: #3b82f6;
     --amber: #fbbf24;
     --border-color: #334155;
+    --ambiant: #74C0FC;
 }
 
 * {
@@ -700,3 +701,29 @@ daily-item .temptemp,.daily-item .condition {
         height: 6px;
     }
 }
+.current-weather.clear {
+    background: linear-gradient(to right, #fceabb, #f8b500);
+}
+
+.current-weather.clouds {
+    background: linear-gradient(to right, #d7d2cc, #304352);
+}
+
+.current-weather.rain {
+    background: linear-gradient(to right, #bdc3c7, #2c3e50);
+}
+
+.current-weather.thunderstorm {
+    background: linear-gradient(to right, #141E30, #243B55);
+}
+
+.current-weather.snow {
+    background: linear-gradient(to right, #e0eafc, #cfdef3);
+}
+
+.current-weather.default {
+    background: linear-gradient(to right, #83a4d4, #b6fbff);
+}
+
+
+

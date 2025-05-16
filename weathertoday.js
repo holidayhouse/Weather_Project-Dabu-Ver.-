@@ -2,12 +2,39 @@ import { cityName , calculateUVIndex,getUVDescription } from './geolocation.js';
 
 
 const weatherToday = (weatherDay) => {
-       
+   const weatherMain = weatherDay.weather[0].main.toLowerCase();
+    let bgClass = 'default';
+
+    switch (weatherMain) {
+        case 'clear':
+            bgClass = 'clear';
+            break;
+        case 'clouds':
+            bgClass = 'clouds';
+            break;
+        case 'rain':
+        case 'drizzle':
+            bgClass = 'rain';
+            break;
+        case 'thunderstorm':
+            bgClass = 'thunderstorm';
+            break;
+        case 'snow':
+            bgClass = 'snow';
+            break;
+    }
+
+    // Apply the background class to the current weather container
+    const weatherContainer = document.getElementById("current-weather");
+    if (weatherContainer) {
+        weatherContainer.className = `current-weather ${bgClass}`;
+    }
+
     return `  
     <div class="weather-info">
         <h1 id="location">${cityName}</h1>
         <p id="rain-chance">Chance of rain: ${Math.round(weatherDay.pop * 100)}%</p>
-        <h2 id="current-temp">${(weatherDay.main.temp).toFixed(2)}°C</h2>
+        <h2 id="current-temp">${(weatherDay.main.temp)}°C</h2>
     </div>
     <div class="weather-icon">
         <img src="https://openweathermap.org/img/wn/${weatherDay.weather[0].icon}@2x.png"
@@ -34,7 +61,7 @@ const renderAirConditions = (weatherDay) => `
       <p class="condition-value" id="rain-probability">${weatherDay.main.humidity}%</p>
   </div>
   <div class="condition-item">
-      <div class="condition-icon"><i class="fa-sharp fa-solid fa-water" style="color: #74C0FC;"></i></div>
+      <div class="condition-icon"><i class="fa-sharp fa-solid fa-water" "></i></div>
       <p class="condition-label">Sea Level</p>
       <p class="condition-value" id="uv-index">${weatherDay.main.pressure} hPa</p>
   </div>
@@ -106,9 +133,6 @@ const renderHourlyForecast = (weatherList) => {
     `;
   });
 };
-
-
-
 
 
 export { weatherToday, renderAirConditions, renderUVandPrecipitation,  renderHourlyForecast };
