@@ -34,7 +34,7 @@ const renderAirConditions = (weatherDay) => `
       <p class="condition-value" id="rain-probability">${weatherDay.main.humidity}%</p>
   </div>
   <div class="condition-item">
-      <div class="condition-icon"><i class="fas fa-sun"></i></div>
+      <div class="condition-icon"><i class="fa-sharp fa-solid fa-water" style="color: #74C0FC;"></i></div>
       <p class="condition-label">Sea Level</p>
       <p class="condition-value" id="uv-index">${weatherDay.main.pressure} hPa</p>
   </div>
