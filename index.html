@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Search Bar -->
+            <div class="search-container">
+                <form id="search-form">
+                    <input type="text" id="city-search" placeholder="Search for cities...">
+                    <button type="button" id="location-btn" title="Use my location">
+                        <i class="fas fa-location-arrow"></i>
+                    </button>
+                </form>
+                <div id="error-message" class="error-message"></div>
+            </div>
+
+            <!-- Current Weather -->
+            <div id="current-weather" class="current-weather">
+                <div class="weather-info">
+                    <h1 id="location">Madrid</h1>
+                    <p id="rain-chance">Chance of rain: 0%</p>
+                    <h2 id="current-temp">31°</h2>
+                </div>
+                <div class="weather-icon">
+                    <i id="weather-icon" class="fas fa-sun"></i>
+                </div>
+            </div>
+
+            <!-- Today's Forecast -->
+            <div class="forecast-section">
+                <h3>EVERY 3 HOUR'S FORECAST</h3>
+                <div class="hourly-forecast" id="hourly-forecast">
+                  	<div class="forecast-item">
+                        <p class="time">6:00 AM</p>
+                        <div class="icon"><i class="fas fa-cloud"></i></div>
+                        <p class="temp">25°</p>
+                    </div>
+                    <div class="forecast-item">
+                        <p class="time">9:00 AM</p>
+                        <div class="icon"><i class="fas fa-cloud-sun"></i></div>
+                        <p class="temp">28°</p>
+                    </div>
+                    <div class="forecast-item">
+                        <p class="time">12:00 PM</p>
+                        <div class="icon"><i class="fas fa-sun"></i></div>
+                        <p class="temp">33°</p>
+                    </div>
+                    <div class="forecast-item">
+                        <p class="time">3:00 PM</p>
+                        <div class="icon"><i class="fas fa-sun"></i></div>
+                        <p class="temp">34°</p>
+                    </div>
+                    <div class="forecast-item">
+                        <p class="time">6:00 PM</p>
+                        <div class="icon"><i class="fas fa-sun"></i></div>
+                        <p class="temp">32°</p>
+                    </div>
+                    <div class="forecast-item">
+                        <p class="time">9:00 PM</p>
+                        <div class="icon"><i class="fas fa-cloud-sun"></i></div>
+                        <p class="temp">30°</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Grid -->
+            <div class="bottom-grid" id="bottom-grid">
+                <!-- Air Conditions -->
+                <div class="air-conditions">
+                    <div class="conditions-header">
+                        <h3>AIR CONDITIONS</h3>
+                    </div>
+                    <div class="conditions-grid">
+                        <div class="condition-item">
+                            <div class="condition-icon">
+                                <i class="fas fa-temperature-high"></i>
+                            </div>
+                            <p class="condition-label">Real Feel</p>
+                            <p class="condition-value" id="real-feel">30°</p>
+                        </div>
+                        <div class="condition-item">
+                            <div class="condition-icon">
+                                <i class="fas fa-wind"></i>
+                            </div>
+                            <p class="condition-label">Wind</p>
+                            <p class="condition-value" id="wind-speed">0.2 km/h</p>
+                        </div>
+                        <div class="condition-item">
+                            <div class="condition-icon">
+                                <i class="fas fa-tint" style=""></i>
+                            </div>
+                            <p class="condition-label">Humidity</p>
+                            <p class="condition-value" id="rain-probability">0%</p>
+                        </div>
+                        <div class="condition-item">
+                            <div class="condition-icon">
+                                <i class="fa-sharp fa-solid fa-water" style="color: #74C0FC;"></i>
+                            </div>
+                            <p class="condition-label">Sea Level</p>
+                            <p class="condition-value" id="uv-index">102 hPa</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- UV Index & Precipitation -->
+                <div class="uv-precipitation">
+                    <h3>CLOUDINESS & VISIBILITY</h3>
+                    <div class="uv-container">
+                        <div class="uv-header">
+                           <i class="fas fa-sun"></i>
+                            <span>UV Index</span>
+                        </div>
+                         <div class="uv-content">
+                            <p class="uv-value" id="uv-value">3</p>
+                            <p class="uv-description" id="uv-description">Moderate</p>
+                            <div class="progress-container">
+                                <div class="progress-bar" id="uv-progress"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="precip-container">
+                        <div class="precip-header">                         
+                        <i class="fa-solid fa-cloud"></i>
+                            <span>Cloudiness</span>
+                        </div>
+                        <div class="precip-content">
+                            <p class="precip-value" id="precip-value">76%</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Sidebar - 7 Day Forecast -->
+        <div class="forecast-sidebar">
+            <h3>5-DAY FORECAST</h3>
+            <div class="daily-forecast" id="daily-forecast">
+                <!-- Daily forecast items will be inserted here by JavaScript -->
+		                 <div class="daily-item">
+                            <p class="day">Today</p>
+                            <div class="icon"><i class="fas fa-sun"></i></div>
+                            <p class="condition">Sunny</p>
+                            <p class = "temptemp">30°</p>
+                            <p class="high-low">27/30</p>
+                        </div>
+                         <div class="daily-item">
+                            <p class="day">Today</p>
+                            <div class="icon"><i class="fas fa-sun"></i></div>
+                            <p class="condition">Sunny</p>
+                             <p class = "temptemp">30°</p>
+                            <p class="high-low">27/30</p>
+                        </div>
+                         <div class="daily-item">
+                            <p class="day">Today</p>
+                            <div class="icon"><i class="fas fa-sun"></i></div>
+                            <p class="condition">Sunny</p>
+                             <p class = "temptemp">30°</p>
+                            <p class="high-low">27/30</p>
+                        </div>
+                         <div class="daily-item">
+                            <p class="day">Today</p>
+                            <div class="icon"><i class="fas fa-sun"></i></div>
+                            <p class="condition">Sunny</p>
+                             <p class = "temptemp">30°</p>
+                            <p class="high-low">27/30</p>
+                        </div>
+                         <div class="daily-item">
+                            <p class="day">Today</p>
+                            <div class="icon"><i class="fas fa-sun"></i></div>
+                            <p class="condition">Sunny</p>
+                             <p class = "temptemp">30°</p>
+                            <p class="high-low">27/30</p>
+                            
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="spinner"></div>
+    </div>
+
+    <script type="module" src="geolocation.js"></script>
+</body>
+</html>
