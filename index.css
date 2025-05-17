@@ -8,7 +8,7 @@
     --blue-primary: #3b82f6;
     --amber: #fbbf24;
     --border-color: #334155;
-    --ambiant: #74C0FC;
+    --ambiant-color:#74C0FC;
 }
 
 * {
@@ -31,8 +31,8 @@ body {
 
 .app-container {
     display: flex;
-    width: 100vw;      /* Full viewport width */
-    height: 100vh;     /* Full viewport height */
+    width: 100vw;      
+    height: 100vh;     
     margin: 0;
     padding: 20px;
     gap: 24px;
@@ -148,8 +148,10 @@ body {
 .forecast-item-server {
     background-color: #263449;
     border-radius: 10px;
-    padding: 4px 4px;
+    padding: 10px 0;
+    
     text-align: center;
+
     font-size: 12px;
     min-height: 130px; /* ← Increased from default */
     display: flex;
@@ -164,8 +166,8 @@ body {
 }
 
 .server-icon {
-    width: 35px;
-    height: 35px;
+    width: 60px;
+    height: 60px;
     margin-bottom: 4px;
 }
 
@@ -178,7 +180,7 @@ body {
 }
 
 .server-temp {
-    font-size: 14px;
+    font-size: 20px;
     font-weight: 600;
 }
 
@@ -220,6 +222,7 @@ body {
 }
 
 .forecast-item .temp {
+  
     font-size: 20px;
     font-weight: 600;
 }
@@ -330,6 +333,7 @@ body {
     flex: 1;
 }
 
+
 .uv-header, .precip-header {
     display: flex;
     align-items: center;
@@ -355,25 +359,59 @@ body {
     margin-bottom: 5px;
 }
 
+
+.uv-na {
+  color: #666666;
+}
+
 .uv-description {
     color: var(--text-secondary);
     font-size: 14px;
     margin-bottom: 15px;
 }
 
+.uv-bar {
+  height: 8px;
+  border-radius: 4px;
+  transition: width 0.4s ease-in-out;
+}
+
+.uv-low {
+  background-color: #2ecc71; /* Green */
+}
+
+.uv-moderate {
+  background-color: #f1c40f; /* Yellow */
+}
+
+.uv-high {
+  background-color: #e67e22; /* Orange */
+}
+
+.uv-very-high {
+  background-color: #e74c3c; /* Red */
+}
+
+.uv-extreme {
+  background-color: #8e44ad; /* Purple */
+}
+
+
+
+/* Make sure the progress container has the right styling */
 .progress-container {
-    width: 100%;
-    height: 8px;
-    background-color: rgba(51, 65, 85, 0.5);
-    border-radius: 4px;
-    overflow: hidden;
+  width: 100%;
+  height: 8px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 5px;
 }
 
 .progress-bar {
-    height: 100%;
-    border-radius: 4px;
-    width: 0%;
-    transition: width 0.3s ease, background-color 0.3s ease;
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s ease;
 }
 
 .precip-container {
@@ -701,29 +739,51 @@ daily-item .temptemp,.daily-item .condition {
         height: 6px;
     }
 }
+
+.current-weather {
+    padding: 1.5rem;
+    border-radius: 1rem;
+    transition: background 0.5s ease, color 0.5s ease;
+}
+
+/* Clear - warm yellow/orange */
 .current-weather.clear {
     background: linear-gradient(to right, #fceabb, #f8b500);
+    color: #000; /* Better contrast on light background */
 }
 
+/* Clouds - muted grays */
 .current-weather.clouds {
-    background: linear-gradient(to right, #d7d2cc, #304352);
+    background: linear-gradient(to right, #a3b1c6, #2b3a42);
+    color: #fff;
 }
 
+/* Rain - dark bluish gray */
 .current-weather.rain {
-    background: linear-gradient(to right, #bdc3c7, #2c3e50);
+    background: linear-gradient(to right, #4b6cb7, #182848);
+    color: #fff;
 }
 
+/* Thunderstorm - nearly black/blue */
 .current-weather.thunderstorm {
-    background: linear-gradient(to right, #141E30, #243B55);
+    background: linear-gradient(to right, #0f2027, #203a43);
+    color: #f8f8f8; /* Softer white for less strain */
 }
 
+/* Snow - very pale blue */
 .current-weather.snow {
-    background: linear-gradient(to right, #e0eafc, #cfdef3);
+    background: linear-gradient(to right, #dfefff, #a0cfe3);
+    color: #1a1a1a; /* Dark gray for contrast on pale bg */
 }
 
+/* Default - bright blue */
 .current-weather.default {
-    background: linear-gradient(to right, #83a4d4, #b6fbff);
+    background: linear-gradient(to right, #5c9ded, #9de0f7);
+    color: #000;
 }
 
+#location, #rain-chance, #current-temp {
+    color: inherit;
+}
 
 

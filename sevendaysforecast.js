@@ -1,5 +1,7 @@
 import { cityName, lat, lon, api_key } from './geolocation.js';
-import { weatherToday, renderAirConditions,renderUVandPrecipitation,   renderHourlyForecast} from './weathertoday.js';
+import { weatherToday, renderAirConditions, renderUVandPrecipitation, renderHourlyForecast } from './weathertoday.js';
+import { updateUVIndexForCity, updateUVDisplay } from './uv-index.js';
+
 
 const WeatherCard = (weatherDay) => {
   const date = new Date(weatherDay.dt_txt);
@@ -29,7 +31,7 @@ const getWeatherDetails = (cityName, lat, lon) => {
   fetch(WEATHER_API_URL)
     .then(res => res.json())
     .then(data => {
-
+       
         const todayWeather = data.list[0]; 
 
         // Inject today's weather conditions
@@ -37,7 +39,14 @@ const getWeatherDetails = (cityName, lat, lon) => {
         todaycontainer.innerHTML = weatherToday(todayWeather);
         
         document.querySelector('.conditions-grid').innerHTML = renderAirConditions(todayWeather);
-        document.querySelector('.uv-precipitation').innerHTML = renderUVandPrecipitation(todayWeather);
+       
+        const uvIndex = updateUVIndexForCity(lat, lon);
+
+        // First render UV and precipitation content
+        document.querySelector('.uv-precipitation').innerHTML = renderUVandPrecipitation(todayWeather, uvIndex);
+
+        // Then update the progress bar and text styling based on the real DOM
+        updateUVDisplay(uvIndex);
 
         console.log(data);
        const today = new Date().getDate();
