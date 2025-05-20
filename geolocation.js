@@ -17,12 +17,15 @@
   const getCityCoordinates = (event) => {
     if (event) event.preventDefault();
 
-    cityName = cityInput.value.trim(); 
-    cityInput.value = '';
+      cityName = cityInput.value.trim(); 
+      cityInput.value = '';
 
-    if (!cityName) {
-      errorMessage.textContent = "Please enter a city name.";
+      if (!cityName || cityName.length < 2) {
+      errorMessage.textContent = "Please enter a valid city name.";
       return;
+    }else{
+      errorMessage.textContent = '';
+
     }
 
     const GEOCODING_API_URL = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=5&appid=${api_key}`;

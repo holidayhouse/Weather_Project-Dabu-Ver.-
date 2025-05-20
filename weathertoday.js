@@ -2,6 +2,10 @@ import { cityName } from './geolocation.js';
 
 const weatherToday = (weatherDay) => {
 
+    if (!weatherDay || !weatherDay.weather || !weatherDay.main || typeof weatherDay.pop !== 'number') {
+    console.warn("Invalid weatherDay data:", weatherDay);
+    return `<div class="weather-info">Weather data is unavailable.</div>`;
+  }
   
    const weatherMain = weatherDay.weather[0].main.toLowerCase();
     let bgClass = 'default';
@@ -44,7 +48,14 @@ const weatherToday = (weatherDay) => {
   `;
 };
 
-const renderAirConditions = (weatherDay) => `
+const renderAirConditions = (weatherDay) => {
+  
+   if (!weatherDay || !weatherDay.main || !weatherDay.wind) {
+    return "<div>Error loading conditions.</div>";
+  }
+  
+  return `
+
   <div class="condition-item">
       <div class="condition-icon"><i class="fas fa-temperature-high"></i></div>
       <p class="condition-label">Real Feel</p>
@@ -64,8 +75,8 @@ const renderAirConditions = (weatherDay) => `
       <div class="condition-icon"><i class="fa-sharp fa-solid fa-water" "></i></div>
       <p class="condition-label">Sea Level</p>
       <p class="condition-value" id="uv-index">${weatherDay.main.pressure} hPa</p>
-  </div>
-`;
+  </div> `;
+}
 
 const renderHourlyForecast = (weatherList, currentForecast, timezoneOffset = 0) => {
   const hourlyContainer = document.getElementById("hourly-forecast");
@@ -144,10 +155,11 @@ const renderHourlyForecast = (weatherList, currentForecast, timezoneOffset = 0) 
   });
 };
 
-
-
-
 const renderUVandPrecipitation = (weatherDay, uvIndex) => {
+   if (!weatherDay || !weatherDay.clouds || !weatherDay.main || typeof uvIndex !== 'number') {
+    return `<div class="uv-container">UV/Precipitation data unavailable.</div>`;
+  }
+  
   const displayUV = uvIndex !== null && uvIndex !== undefined ? uvIndex : "--";
   
   let description = "Unavailable";

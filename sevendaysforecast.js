@@ -31,9 +31,14 @@ const getWeatherDetails = (cityName, lat, lon) => {
   fetch(WEATHER_API_URL)
     .then(res => res.json())
     .then(data => {
-       
-        const todayWeather = data.list[0]; 
+        if (!data || !Array.isArray(data.list) || data.list.length === 0) {
+          throw new Error("No forecast data received");
+        }
 
+        const todayWeather = data.list[0];
+        if (!todayWeather) {
+          throw new Error("No data for today’s forecast");
+        }
         // Inject today's weather conditions
          const todaycontainer = document.getElementById("current-weather");
         todaycontainer.innerHTML = weatherToday(todayWeather);
