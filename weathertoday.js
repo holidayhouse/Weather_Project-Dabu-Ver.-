@@ -1,6 +1,8 @@
 import { cityName } from './geolocation.js';
 
 const weatherToday = (weatherDay) => {
+
+  
    const weatherMain = weatherDay.weather[0].main.toLowerCase();
     let bgClass = 'default';
 
@@ -65,44 +67,85 @@ const renderAirConditions = (weatherDay) => `
   </div>
 `;
 
-const renderHourlyForecast = (weatherList) => {
-  const now = new Date();
-  const todayDateStr = now.toDateString();
-  const tomorrowDateStr = new Date(now.setDate(now.getDate() + 1)).toDateString();
-
-  // Filter forecast entries for today and tomorrow
-  const todayForecasts = weatherList.filter(item =>
-    new Date(item.dt_txt).toDateString() === todayDateStr
-  );
-
-  const tomorrowForecasts = weatherList.filter(item =>
-    new Date(item.dt_txt).toDateString() === tomorrowDateStr
-  );
-
-  // Combine and limit to 6
-  const hourlyForecast = [...todayForecasts, ...tomorrowForecasts].slice(0, 6);
-
+const renderHourlyForecast = (weatherList, currentForecast, timezoneOffset = 0) => {
   const hourlyContainer = document.getElementById("hourly-forecast");
   if (!hourlyContainer) return;
 
   hourlyContainer.innerHTML = "";
 
-  hourlyForecast.forEach(hourData => {
-    const hour = new Date(hourData.dt_txt).toLocaleTimeString("en-US", {
-      hour: "2-digit",
+  const nowUTCSeconds = Math.floor(Date.now() / 1000);
+  const nowLocalSeconds = nowUTCSeconds + timezoneOffset;
+
+  const futureForecasts = [];
+
+  // Step 1: Get next 6 future forecast blocks
+  for (const item of weatherList) {
+    const forecastUTC = item.dt;
+    const forecastLocal = forecastUTC + timezoneOffset;
+
+    if (forecastLocal > nowLocalSeconds) {
+      futureForecasts.push({
+        ...item,
+        localTime: forecastLocal * 1000, // in ms
+      });
+    }
+
+    if (futureForecasts.length >= 6) break;
+  }
+
+  // Step 2: If less than 6 found, keep adding later ones
+  if (futureForecasts.length < 6) {
+    for (const item of weatherList) {
+      const forecastUTC = item.dt;
+      const forecastLocal = forecastUTC + timezoneOffset;
+
+      if (
+        forecastLocal <= nowLocalSeconds ||
+        futureForecasts.find(f => f.dt === item.dt)
+      ) continue;
+
+      futureForecasts.push({
+        ...item,
+        localTime: forecastLocal * 1000, // in ms
+      });
+
+      if (futureForecasts.length >= 6) break;
+    }
+  }
+
+  // Step 3: Show message if nothing to render
+  if (futureForecasts.length === 0) {
+    hourlyContainer.innerHTML = `<div class="forecast-item-server">No forecast data available</div>`;
+    return;
+  }
+
+  // Step 4: Render
+  futureForecasts.forEach(hourData => {
+    const timeLabel = new Date(hourData.localTime).toLocaleTimeString("en-US", {
+      hour: "numeric",
       minute: "2-digit",
+      hour12: true,
+      timeZone: "UTC" // to ensure manual offset logic is not affected by device
     });
+
+    const icon = hourData.weather[0]?.icon || "01d";
+    const description = hourData.weather[0]?.description || "clear sky";
+    const temp = Math.round(hourData.main.temp);
+    const { tempClass, tempWarning } = getTemperatureWarning(temp);
 
     hourlyContainer.innerHTML += `
       <div class="forecast-item-server">
-        <div class="server-time">${hour}</div>
-        <img class="server-icon" src="https://openweathermap.org/img/wn/${hourData.weather[0].icon}@2x.png" alt="weather icon">
-        <div class="server-description">${hourData.weather[0].description}</div>
-        <div class="server-temp">${Math.round(hourData.main.temp)}°</div>
+        <div class="server-time">${timeLabel}</div>
+        <img class="server-icon" src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="${description}">
+        <div class="server-description">${description}</div>
+        <div class="server-temp ${tempClass}">${temp}°C ${tempWarning}</div>
       </div>
     `;
   });
 };
+
+
+
 
 const renderUVandPrecipitation = (weatherDay, uvIndex) => {
   const displayUV = uvIndex !== null && uvIndex !== undefined ? uvIndex : "--";
@@ -153,5 +196,15 @@ const renderUVandPrecipitation = (weatherDay, uvIndex) => {
     </div>
   `;
 };
+
+function getTemperatureWarning(temp) {
+  let tempClass = "";
+  let tempWarning = "";
+  if (temp > 31) {
+    tempClass = "high-temp";
+    tempWarning = `<span class="temp-warning" title="High temperature">⚠️</span>`;
+  }
+  return { tempClass, tempWarning };
+}
 
 export { weatherToday, renderAirConditions, renderUVandPrecipitation, renderHourlyForecast };
