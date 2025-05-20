@@ -59,7 +59,7 @@ const renderAirConditions = (weatherDay) => {
   <div class="condition-item">
       <div class="condition-icon"><i class="fas fa-temperature-high"></i></div>
       <p class="condition-label">Real Feel</p>
-      <p class="condition-value" id="real-feel">${weatherDay.main.feels_like}°C</p>
+      <p class="condition-value" id="real-feel">${weatherDay.main.feels_like.toFixed(0)}°C</p>
   </div>
   <div class="condition-item">
       <div class="condition-icon"><i class="fas fa-wind"></i></div>
