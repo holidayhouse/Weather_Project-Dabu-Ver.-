@@ -6,7 +6,7 @@ const weatherToday = (weatherDay) => {
     console.warn("Invalid weatherDay data:", weatherDay);
     return `<div class="weather-info">Weather data is unavailable.</div>`;
   }
-  
+  //
    const weatherMain = weatherDay.weather[0].main.toLowerCase();
     let bgClass = 'default';
 
@@ -160,29 +160,7 @@ const renderUVandPrecipitation = (weatherDay, uvIndex) => {
     return `<div class="uv-container">UV/Precipitation data unavailable.</div>`;
   }
   
-  const displayUV = uvIndex !== null && uvIndex !== undefined ? uvIndex : "--";
   
-  let description = "Unavailable";
-  let colorClass = "uv-na";
-
-  if (uvIndex !== null && uvIndex !== undefined) {
-    if (uvIndex <= 2) {
-      description = "Low";
-   
-    } else if (uvIndex <= 5) {
-      description = "Moderate";
-    
-    } else if (uvIndex <= 7) {
-      description = "High";
-      
-    } else if (uvIndex <= 10) {
-      description = "Very High";
-     
-    } else {
-      description = "Extreme";
-    
-    }
-  }
 
   return `
     <div class="uv-container">
@@ -190,10 +168,10 @@ const renderUVandPrecipitation = (weatherDay, uvIndex) => {
         <i class="fas fa-sun"></i><span>UV Index</span>
       </div>
       <div class="uv-content">
-        <p class="uv-value" id="uv-value">${displayUV}</p>
-        <p class="uv-description ${colorClass}" id="uv-description">${description}</p>
+        <p class="uv-value" id="uv-value"></p>
+        <p class="uv-description " id="uv-description"></p>
         <div class="progress-container">
-          <div class="uv-bar ${colorClass}" id="uv-progress"</div>
+          <div class="uv-bar " id="uv-progress"</div>
         </div>
       </div>
        </div>

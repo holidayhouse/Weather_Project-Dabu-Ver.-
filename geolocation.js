@@ -9,23 +9,27 @@
 
   const api_key = '953d16324765d01c29c55e30de9adba6';
   const api_key_hourly = '9646d20e7fc4f7330a873106611279ac';
-
+  let defaultCity='Madrid'
   let cityName = '';
   let lat = '';
   let lon = '';
 
-  const getCityCoordinates = (event) => {
+  const getCityCoordinates = (event, defaultCity = null) => {
     if (event) event.preventDefault();
-
+  
+    // Use defaultCity if provided, otherwise use input value
+    if (defaultCity) {
+      cityName = defaultCity;
+    } else {
       cityName = cityInput.value.trim(); 
       cityInput.value = '';
-
+  
       if (!cityName || cityName.length < 2) {
-      errorMessage.textContent = "Please enter a valid city name.";
-      return;
-    }else{
-      errorMessage.textContent = '';
-
+        errorMessage.textContent = "Please enter a valid city name.";
+        return;
+      } else {
+        errorMessage.textContent = '';
+      }
     }
 
     const GEOCODING_API_URL = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=5&appid=${api_key}`;
@@ -79,9 +83,12 @@ const getHourlyForecast = (lat, lon) => {
       }
     });
 };
-
+window.addEventListener('DOMContentLoaded', () => {
+  getCityCoordinates(null, 'Madrid');
+});
   // Add event listeners
-  if (searchbtn) searchbtn.addEventListener('click', getCityCoordinates);
+  if (searchbtn) searchbtn.addEventListener('click', getCityCoordinates)
+  ;
   if (form) form.addEventListener('submit', getCityCoordinates);
 
   export { cityName, lat, lon, api_key, api_key_hourly };
